@@ -8,12 +8,12 @@ export interface CreditsProps extends WindowAppProps {}
 const CREDITS = [
     {
         title: 'Engineering & Design',
-        rows: [['GOALS', 'All']],
+        rows: [['ROOM', 'All']],
     },
     {
         title: 'Modeling & Texturing',
         rows: [
-            ['GOALS', 'Texturing, Composition, & UV'],
+            ['ROOM', 'Texturing, Composition, & UV'],
             ['Mickael Boitte', 'Computer Model'],
             ['Sean Nicolas', 'Environment Models'],
         ],
@@ -21,7 +21,7 @@ const CREDITS = [
     {
         title: 'Sound Design',
         rows: [
-            ['GOALS', 'Mixing, Composition, & Foley'],
+            ['ROOM', 'Mixing, Composition, & Foley'],
             ['Sound Cassette', 'Office Ambience'],
             ['Windows 95 Startup Sound', 'Microsoft'],
         ],
@@ -71,59 +71,20 @@ const Credits: React.FC<CreditsProps> = (props) => {
         <Window
             top={48}
             left={48}
-            width={1100}
+            width={450}
             height={800}
             windowTitle="Credits"
             windowBarIcon="windowExplorerIcon"
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText={'© Copyright 2024 GOALS'}
+            bottomLeftText={'© Copyright 2024 ROOM'}
         >
             <div
-                onMouseDown={nextSlide}
-                className="site-page"
+                className="site-page credit"
                 style={styles.credits}
             >
-                <h2>Credits</h2>
-                <p>goals, 2024</p>
-                <br />
-                <br />
-                <br />
-                <div style={styles.slideContainer}>
-                    {
-                        <motion.div
-                            animate={{ opacity: 1, y: -20 }}
-                            transition={{ duration: 0.5 }}
-                            key={`section-${CREDITS[currentSlide].title}`}
-                            style={styles.section}
-                        >
-                            <h3 style={styles.sectionTitle}>
-                                {CREDITS[currentSlide].title}
-                            </h3>
-                            {CREDITS[currentSlide].rows.map((row, i) => {
-                                return (
-                                    <div key={`row-${i}`} style={styles.row}>
-                                        <p>{row[0]}</p>
-                                        <p>{row[1]}</p>
-                                    </div>
-                                );
-                            })}
-                        </motion.div>
-                    }
-                </div>
-                <p>Click to continue...</p>
-                <br />
-                <div style={styles.nextSlideTimer}>
-                    {/* make a time number of dots */}
-                    {Array.from(Array(time)).map((i) => {
-                        return (
-                            <div key={i}>
-                                <p>.</p>
-                            </div>
-                        );
-                    })}
-                </div>
+           
             </div>
         </Window>
     );
@@ -132,7 +93,7 @@ const Credits: React.FC<CreditsProps> = (props) => {
 const styles: StyleSheetCSS = {
     credits: {
         width: '100%',
-        backgroundColor: 'black',
+        background: './assets/pictures/dont.png',
         paddingTop: 64,
         flexDirection: 'column',
         alignItems: 'center',

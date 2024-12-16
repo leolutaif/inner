@@ -24,10 +24,10 @@ const SoftwareProjects: React.FC<SoftwareProjectsProps> = (props) => {
             <ResumeDownload />
             <br />
             <div className="text-block">
-                <h2>GOALS</h2>
+                <h2>ROOM</h2>
                 <br />
                 <p>
-                    GOALS is my portfolio website, and also the
+                    ROOM is my portfolio website, and also the
                     website you are on right now. This project was an absolute
                     joy to make and challenged me both technically and
                     creatively. Early in 2024, I knew I wanted to make an

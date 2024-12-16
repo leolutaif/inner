@@ -23,12 +23,12 @@ const ShowcaseExplorer: React.FC<ShowcaseExplorerProps> = (props) => {
             left={56}
             width={initWidth}
             height={initHeight}
-            windowTitle="GOALS"
+            windowTitle="ROOM"
             windowBarIcon="windowExplorerIcon"
             closeWindow={props.onClose}
             onInteract={props.onInteract}
             minimizeWindow={props.onMinimize}
-            bottomLeftText={'© Copyright 2024 GOALS'}
+            bottomLeftText={'© Copyright 2024 ROOM'}
         >
                 <div className="site-page">
                     <VerticalNavbar />

@@ -16,10 +16,14 @@ const Experience: React.FC<ExperienceProps> = (props) => {
 
     const handleSend = async (): Promise<void> => {
         if (!prompt.trim()) return;
-    
+
+        // Cria a mensagem do usuário com o valor atual do prompt
         const userMessage: Message = { role: 'user', content: prompt };
         setMessages((prev) => [...prev, userMessage]);
-    
+
+        // Limpa o textarea logo após adicionar a mensagem do usuário
+        setPrompt('');
+
         try {
             const response = await fetch('http://localhost:5000/api/chat', {
                 method: 'POST',
@@ -28,9 +32,9 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 },
                 body: JSON.stringify({ prompt }),
             });
-    
+
             const data = await response.json();
-    
+
             if (response.ok) {
                 const formattedResponse = removeAsterisks(data.response);
                 const assistantMessage: Message = { role: 'assistant', content: formattedResponse };
@@ -44,8 +48,6 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             const errorMessage: Message = { role: 'assistant', content: 'Erro ao conectar ao servidor.' };
             setMessages((prev) => [...prev, errorMessage]);
         }
-    
-        setPrompt('');
     };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>): void => {
@@ -57,7 +59,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
 
     return (
         <div className="site-page-content">
-            <h1>Talk with GOALS </h1>
+            <h1>Talk with ROOM </h1>
             <textarea 
                 value={prompt} 
                 onChange={(e) => setPrompt(e.target.value)} 

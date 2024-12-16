@@ -269,10 +269,10 @@ const Window: React.FC<WindowProps> = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div
+                        {/* <div
                             onMouseDown={startResize}
                             style={styles.resizeHitbox}
-                        ></div>
+                        ></div> */}
                         <div style={styles.bottomBar}>
                             <div
                                 style={Object.assign({}, styles.insetBorder, {
@@ -438,7 +438,7 @@ const styles: StyleSheetCSS = {
 
         position: 'relative',
         // overflow: 'scroll',
-        overflowX: 'hidden',
+        overflow: 'hidden',
         backgroundColor: Colors.white,
     },
     bottomBar: {

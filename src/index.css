@@ -243,6 +243,11 @@ input:active {
     text-align: justify;
 }
 
+.credit{
+    background: url("./assets/pictures/dont.png");
+    background-size: 100% 100%;
+}
+
 .site-page {
     display: flex;
     left: 0px;

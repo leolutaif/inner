@@ -214,7 +214,7 @@ const ROWS = [TOP_ROW, MIDDLE_ROW, BOTTOM_ROW];
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const Wordle: React.FC<WordleProps> = () => {
-    const word = 'GOALS';
+    const word = 'TOKEN';
     const [guesses, setGuesses] = useState<string[]>([]);
     const [gameOver, setGameOver] = useState(false);
     const [won, setWon] = useState(false);
@@ -273,8 +273,8 @@ const Wordle: React.FC<WordleProps> = () => {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <h2>GOALS</h2>
-                <p>Wordle but with a GOALS based twist.</p>
+                <h2>ROOM</h2>
+                <p>Wordle but with a ROOM based twist.</p>
             </div>
             <motion.div
                 variants={gameOverAnimations}
@@ -287,7 +287,7 @@ const Wordle: React.FC<WordleProps> = () => {
                 )}
             >
                 <h2>{won ? 'You win!' : 'Game Over'}</h2>
-                <p>Thanks for playing! Remember: the word is always "GOALS"!</p>
+                <p>Thanks for playing! Remember: the word is always "TOKEN"!</p>
                 <br />
                 <GuessWord
                     key={'winning-guess'}

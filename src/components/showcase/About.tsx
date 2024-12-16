@@ -10,41 +10,31 @@ const About: React.FC<AboutProps> = (props) => {
     return (
         <div className="site-page-content">
             <h1 style={{ marginLeft: -16 }}>Welcome</h1>
-            <h3>We are GOALS</h3>
+            <h3>This is BITCOIN</h3>
             <br />
             <div className="text-block">
                 <p>
-                GOALS AI is a platform that uses artificial intelligence to assist individuals and organizations in setting and tracking effective goals.
-
-The platform employs the concept of SMART goals — Specific, Measurable, Achievable, Relevant, and Time-bound — to ensure that the objectives established are clear and attainable.
-
-By integrating advanced AI algorithms, GOALS AI offers personalized action plans, breaking down broad goals into smaller, manageable tasks tailored to the user's level of expertise and the required support.
-
-Additionally, the platform provides features such as progress tracking and strategy suggestions based on proven success principles, facilitating continuous monitoring and goal adjustments as performance evolves.
-
-By automating and optimizing the goal-setting process, GOALS AI aims to increase productivity and efficiency, allowing users to focus their efforts on strategic and creative activities.
+                I am pleased to announce the release of Bitcoin, a decentralized peer-to-peer electronic cash system designed to enable direct, secure, and trustless transactions without the need for intermediaries. This system addresses key challenges in digital payments, including inefficiency, high costs, and reliance on centralized authorities, by introducing a revolutionary technology: the blockchain.
                 </p>
-                <br />
-               
-            </div>
-            <div className="text-block">
-                <h3>About GOALS</h3>
                 <br />
                 <p>
-                GOALS AI is an intelligent platform designed to help individuals and organizations set, track, and achieve their goals more effectively. Utilizing the SMART framework — Specific, Measurable, Achievable, Relevant, and Time-bound — GOALS AI leverages advanced AI algorithms to break down complex objectives into actionable steps, provide real-time progress tracking, and offer personalized strategy recommendations. By simplifying the goal-setting process and offering adaptive support, GOALS AI empowers users to stay focused, productive, and aligned with their most important
+                The blockchain serves as a public, immutable ledger that records all transactions transparently while being collectively maintained by a network of participants. Using a proof-of-work mechanism, Bitcoin ensures the security and integrity of its network, preventing fraud and eliminating the need for centralized oversight. With a finite supply of 21 million coins, Bitcoin also introduces scarcity to protect against inflation and preserve long-term value.
+
+
                 </p>
-                <br />
-              
                 <br />
                 <p>
-                    Industry experience at Hover offered a chance to bridge academic theory with real-world application. Focused on user-centric development, I sharpened my proficiency in front-end technologies and learned to balance function with form. Every role undertaken serves as a node in the expanding network of knowledge.
+                    
+The source code for Bitcoin is now available for review and further development. I invite experts and innovators to explore this project and contribute to its growth. I believe Bitcoin has the potential to transform how we perceive and exchange value, fostering a more transparent and equitable digital economy.
                 </p>
                 <br />
+                <p>
+                Sincerely,
                 <br />
-
-                <br />
-               
+                Satoshi Nakamoto
+                </p>
             </div>
+            
         </div>
     );
 };

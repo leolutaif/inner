@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
 import Doom from '../applications/Doom';
+import btcsrc from '../applications/BTCsrc';
 import OregonTrail from '../applications/OregonTrail';
 import ShutdownSequence from './ShutdownSequence';
 // import ThisComputer from '../applications/ThisComputer';
-import Goals from '../applications/Goals';
+import ROOM from '../applications/ROOM';
 import Toolbar from './Toolbar';
 import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import Scrabble from '../applications/Scrabble';
@@ -69,7 +70,7 @@ const APPLICATIONS: {
     // },
     showcase: {
         key: 'showcase',
-        name: 'My Showcase',
+        name: 'Bitcoin Project',
         shortcutIcon: 'showcaseIcon',
         component: ShowcaseExplorer,
     },
@@ -91,17 +92,23 @@ const APPLICATIONS: {
         shortcutIcon: 'twitter',
         component:  `${twitterLink}`,
     },
-    trail: {
-        key: 'trail',
-        name: 'The Oregon Trail',
-        shortcutIcon: 'trailIcon',
-        component: OregonTrail,
-    },
+    // trail: {
+    //     key: 'trail',
+    //     name: 'The Oregon Trail',
+    //     shortcutIcon: 'trailIcon',
+    //     component: OregonTrail,
+    // },
     doom: {
         key: 'doom',
         name: 'Doom',
         shortcutIcon: 'doomIcon',
         component: Doom,
+    },
+    btcsrc: {
+        key: 'btcsrc',
+        name: 'Bitcoin',
+        shortcutIcon: 'btc',
+        component: btcsrc,
     },
     scrabble: {
         key: 'scrabble',
@@ -109,18 +116,19 @@ const APPLICATIONS: {
         shortcutIcon: 'scrabbleIcon',
         component: Scrabble,
     },
-    goals: {
-        key: 'goals',
-        name: 'Goals',
+    ROOM: {
+        key: 'ROOM',
+        name: 'ROOM',
         shortcutIcon: 'henordleIcon',
-        component: Goals,
+        component: ROOM,
     },
-    // credits: {
-    //     key: 'credits',
-    //     name: 'Credits',
-    //     shortcutIcon: 'credits',
-    //     component: Credits,
-    // },
+    credits: {
+        key: 'credits',
+        name: 'DONT CLICK HERE!',
+        shortcutIcon: 'credits',
+        component: Credits,
+    },
+    
 };
 
     const [windows, setWindows] = useState<DesktopWindows>({});

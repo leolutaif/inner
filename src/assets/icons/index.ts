@@ -8,6 +8,7 @@ import computerSmall from './computerSmall.png';
 import myComputer from './myComputer.png';
 import showcaseIcon from './showcaseIcon.png';
 import doomIcon from './doomIcon.png';
+import btc from './bitcoin.png';
 import henordleIcon from './henordleIcon.png';
 import credits from './credits.png';
 import volumeOn from './volumeOn.png';
@@ -41,6 +42,7 @@ const icons = {
     windowExplorerIcon: windowExplorerIcon,
     windowsStartIcon: windowsStartIcon,
     trailIcon: trailIcon,
+    btc: btc,
     pill: pill,
     telegram: telegram,
     twitter: twitter,
