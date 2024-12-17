@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Colors from '../../constants/colors';
 import ShowcaseExplorer from '../applications/ShowcaseExplorer';
 import Doom from '../applications/Doom';
@@ -17,6 +17,13 @@ export interface DesktopProps {}
 
 type ExtendedWindowAppProps<T> = T & WindowAppProps;
 
+interface Application {
+    key: string;
+    name: string;
+    shortcutIcon: IconName;
+    component: string | React.FC<ExtendedWindowAppProps<any>>;
+}
+
 const Desktop: React.FC<DesktopProps> = (props) => {
     const [tokenName, setTokenName] = useState('');
     const [telegramLink, setTelegramLink] = useState('');
@@ -25,7 +32,6 @@ const Desktop: React.FC<DesktopProps> = (props) => {
     const [pumpLink, setPumpLink] = useState('');
 
     useEffect(() => {
-        // Fetch data from the API when the component mounts
         fetch("https://apitoreturnca.onrender.com/api/purchaseData", {
           headers: {
             "x-access-key":
@@ -46,133 +52,80 @@ const Desktop: React.FC<DesktopProps> = (props) => {
             setPumpLink(data.link);
           })
           .catch((error) => console.error("Error fetching data:", error));
-      }, []);
+    }, []);
 
-    const APPLICATIONS: {
-        [key in string]: {
-            key: string;
-            name: string;
-            shortcutIcon: IconName;
-            component: string | React.FC<ExtendedWindowAppProps<any>>;
-        };
-    } = {
-        // computer: {
-        //     key: 'computer',
-        //     name: 'This Computer',
-        //     shortcutIcon: 'computerBig',
-        //     component: ThisComputer,
-        // },
-        showcase: {
-            key: 'showcase',
-            name: 'Bitcoin Project',
-            shortcutIcon: 'showcaseIcon',
-            component: ShowcaseExplorer,
-        },
-        pumpfun: {
-            key: 'pumpfun',
-            name: 'pump.fun',
-            shortcutIcon: 'pill',
-            component: pumpLink,
-        },
-        telegram: {
-            key: 'telegram',
-            name: 'telegram',
-            shortcutIcon: 'telegram',
-            component: telegramLink,
-        },
-        x: {
-            key: 'X',
-            name: 'X',
-            shortcutIcon: 'twitter',
-            component: twitterLink,
-        },
-        // trail: {
-        //     key: 'trail',
-        //     name: 'The Oregon Trail',
-        //     shortcutIcon: 'trailIcon',
-        //     component: OregonTrail,
-        // },
-        doom: {
-            key: 'doom',
-            name: 'Doom',
-            shortcutIcon: 'doomIcon',
-            component: Doom,
-        },
-        btcsrc: {
-            key: 'btcsrc',
-            name: 'Bitcoin',
-            shortcutIcon: 'btc',
-            component: btcsrc,
-        },
-        scrabble: {
-            key: 'scrabble',
-            name: 'Scrabble',
-            shortcutIcon: 'scrabbleIcon',
-            component: Scrabble,
-        },
-        ROOM: {
-            key: 'ROOM',
-            name: 'ROOM',
-            shortcutIcon: 'henordleIcon',
-            component: ROOM,
-        },
-        credits: {
-            key: 'credits',
-            name: 'DONT CLICK HERE!',
-            shortcutIcon: 'credits',
-            component: Credits,
-        },
-    };
+    const APPLICATIONS = useMemo(() => {
+        return {
+            showcase: {
+                key: 'showcase',
+                name: 'Bitcoin Project',
+                shortcutIcon: 'showcaseIcon',
+                component: ShowcaseExplorer,
+            },
+            pumpfun: {
+                key: 'pumpfun',
+                name: 'pump.fun',
+                shortcutIcon: 'pill',
+                component: pumpLink,
+            },
+            telegram: {
+                key: 'telegram',
+                name: 'telegram',
+                shortcutIcon: 'telegram',
+                component: telegramLink,
+            },
+            x: {
+                key: 'X',
+                name: 'X',
+                shortcutIcon: 'twitter',
+                component: twitterLink,
+            },
+            // trail: {
+            //     key: 'trail',
+            //     name: 'The Oregon Trail',
+            //     shortcutIcon: 'trailIcon',
+            //     component: OregonTrail,
+            // },
+            doom: {
+                key: 'doom',
+                name: 'Doom',
+                shortcutIcon: 'doomIcon',
+                component: Doom,
+            },
+            btcsrc: {
+                key: 'btcsrc',
+                name: 'Bitcoin',
+                shortcutIcon: 'btc',
+                component: btcsrc,
+            },
+            scrabble: {
+                key: 'scrabble',
+                name: 'Scrabble',
+                shortcutIcon: 'scrabbleIcon',
+                component: Scrabble,
+            },
+            ROOM: {
+                key: 'ROOM',
+                name: 'ROOM',
+                shortcutIcon: 'henordleIcon',
+                component: ROOM,
+            },
+            credits: {
+                key: 'credits',
+                name: 'DONT CLICK HERE!',
+                shortcutIcon: 'credits',
+                component: Credits,
+            },
+        } as const; // 'as const' ajuda o TS a inferir chaves fixas
+    }, [pumpLink, telegramLink, twitterLink, tokenCA, tokenName]);
+
+    // Criamos um tipo baseado nas chaves de APPLICATIONS
+    type ApplicationKeys = keyof typeof APPLICATIONS;
 
     const [windows, setWindows] = useState<DesktopWindows>({});
-
     const [shortcuts, setShortcuts] = useState<DesktopShortcutProps[]>([]);
-
     const [shutdown, setShutdown] = useState(false);
     const [numShutdowns, setNumShutdowns] = useState(1);
-
-    useEffect(() => {
-        if (shutdown === true) {
-            rebootDesktop();
-        }
-    }, [shutdown]);
-
-    useEffect(() => {
-        const newShortcuts: DesktopShortcutProps[] = [];
-        Object.keys(APPLICATIONS).forEach((key) => {
-            const app = APPLICATIONS[key];
-            newShortcuts.push({
-                shortcutName: app.name,
-                icon: app.shortcutIcon,
-                onOpen: () => {
-                    if (typeof app.component === 'string' && app.component !== '') {
-                        console.log("Abrindo link:", app.component);
-                        window.open(app.component, '_blank');
-                    } else if (typeof app.component === 'function') {
-                        addWindow(
-                            app.key,
-                            <app.component
-                                onInteract={() => onWindowInteract(app.key)}
-                                onMinimize={() => minimizeWindow(app.key)}
-                                onClose={() => removeWindow(app.key)}
-                                key={app.key}
-                            />
-                        );
-                    } else {
-                        console.warn("Componente inválido ou link vazio:", app.component);
-                    }
-                },
-            });
-        });
-
-        newShortcuts.forEach((shortcut) => {
-            if (shortcut.shortcutName === 'My Showcase') {
-                shortcut.onOpen();
-            }
-        });
-
-        setShortcuts(newShortcuts);
-    }, [APPLICATIONS]);
 
     const rebootDesktop = useCallback(() => {
         setWindows({});
@@ -200,17 +153,16 @@ const Desktop: React.FC<DesktopProps> = (props) => {
         let highestZIndex = 0;
         Object.keys(windows).forEach((key) => {
             const w = windows[key];
-            if (w) {
-                if (w.zIndex > highestZIndex)
-                    highestZIndex = w.zIndex;
+            if (w && w.zIndex > highestZIndex) {
+                highestZIndex = w.zIndex;
             }
         });
         return highestZIndex;
     }, [windows]);
 
-    const toggleMinimize = useCallback(
-        (key: string) => {
-            const newWindows = { ...windows };
+    const toggleMinimize = useCallback((key: string) => {
+        setWindows((prevWindows) => {
+            const newWindows = { ...prevWindows };
             const highestIndex = getHighestZIndex();
             if (
                 newWindows[key].minimized ||
@@ -219,46 +171,86 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                 newWindows[key].minimized = !newWindows[key].minimized;
             }
             newWindows[key].zIndex = getHighestZIndex() + 1;
-            setWindows(newWindows);
-        },
-        [windows, getHighestZIndex]
-    );
+            return newWindows;
+        });
+    }, [getHighestZIndex]);
 
-    const onWindowInteract = useCallback(
-        (key: string) => {
-            setWindows((prevWindows) => ({
-                ...prevWindows,
-                [key]: {
-                    ...prevWindows[key],
-                    zIndex: 1 + getHighestZIndex(),
-                },
-            }));
-        },
-        [setWindows, getHighestZIndex]
-    );
+    const onWindowInteract = useCallback((key: string) => {
+        setWindows((prevWindows) => ({
+            ...prevWindows,
+            [key]: {
+                ...prevWindows[key],
+                zIndex: 1 + getHighestZIndex(),
+            },
+        }));
+    }, [getHighestZIndex]);
 
     const startShutdown = useCallback(() => {
         setTimeout(() => {
             setShutdown(true);
-            setNumShutdowns(numShutdowns + 1);
+            setNumShutdowns((prev) => prev + 1);
         }, 600);
-    }, [numShutdowns]);
+    }, []);
 
     const addWindow = useCallback(
         (key: string, element: JSX.Element) => {
+            const appKey = key as ApplicationKeys;
             setWindows((prevState) => ({
                 ...prevState,
                 [key]: {
                     zIndex: getHighestZIndex() + 1,
                     minimized: false,
                     component: element,
-                    name: APPLICATIONS[key].name,
-                    icon: APPLICATIONS[key].shortcutIcon,
+                    name: APPLICATIONS[appKey].name,
+                    icon: APPLICATIONS[appKey].shortcutIcon,
                 },
             }));
         },
         [getHighestZIndex, APPLICATIONS]
     );
+
+    useEffect(() => {
+        if (shutdown === true) {
+            rebootDesktop();
+        }
+    }, [shutdown, rebootDesktop]);
+
+    useEffect(() => {
+        const newShortcuts: DesktopShortcutProps[] = [];
+        Object.keys(APPLICATIONS).forEach((k) => {
+            const key = k as ApplicationKeys;
+            const app = APPLICATIONS[key];
+            newShortcuts.push({
+                shortcutName: app.name,
+                icon: app.shortcutIcon,
+                onOpen: () => {
+                    if (typeof app.component === 'string' && app.component !== '') {
+                        console.log("Abrindo link:", app.component);
+                        window.open(app.component, '_blank');
+                    } else if (typeof app.component === 'function') {
+                        addWindow(
+                            app.key,
+                            <app.component
+                                onInteract={() => onWindowInteract(app.key)}
+                                onMinimize={() => minimizeWindow(app.key)}
+                                onClose={() => removeWindow(app.key)}
+                                key={app.key}
+                            />
+                        );
+                    } else {
+                        console.warn("Componente invÃ¡lido ou link vazio:", app.component);
+                    }
+                },
+            });
+        });
+
+        // Se existe algum shortcut que deve abrir automaticamente, ajuste aqui
+        // if (newShortcuts.some(s => s.shortcutName === 'My Showcase')) {
+        //   ...
+        // }
+
+        setShortcuts(newShortcuts);
+    }, [APPLICATIONS, addWindow, minimizeWindow, onWindowInteract, removeWindow]);
 
     return !shutdown ? (
         <div style={styles.desktop}>
@@ -268,11 +260,10 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                 return (
                     <div
                         key={`win-${key}`}
-                        style={Object.assign(
-                            {},
-                            { zIndex: windows[key].zIndex },
-                            windows[key].minimized && styles.minimized
-                        )}
+                        style={{
+                            zIndex: windows[key].zIndex,
+                            ...(windows[key].minimized ? styles.minimized : {}),
+                        }}
                     >
                         {React.cloneElement(element, {
                             key,
@@ -283,22 +274,18 @@ const Desktop: React.FC<DesktopProps> = (props) => {
                 );
             })}
             <div style={styles.shortcuts}>
-                {shortcuts.map((shortcut, i) => {
-                    return (
-                        <div
-                            style={Object.assign({}, styles.shortcutContainer, {
-                                top: i * 104,
-                            })}
-                            key={shortcut.shortcutName}
-                        >
-                            <DesktopShortcut
-                                icon={shortcut.icon}
-                                shortcutName={shortcut.shortcutName}
-                                onOpen={shortcut.onOpen}
-                            />
-                        </div>
-                    );
-                })}
+                {shortcuts.map((shortcut, i) => (
+                    <div
+                        style={{ ...styles.shortcutContainer, top: i * 104 }}
+                        key={shortcut.shortcutName}
+                    >
+                        <DesktopShortcut
+                            icon={shortcut.icon}
+                            shortcutName={shortcut.shortcutName}
+                            onOpen={shortcut.onOpen}
+                        />
+                    </div>
+                ))}
             </div>
             <Toolbar
                 windows={windows}
