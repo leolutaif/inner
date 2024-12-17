@@ -12,124 +12,117 @@ import DesktopShortcut, { DesktopShortcutProps } from './DesktopShortcut';
 import Scrabble from '../applications/Scrabble';
 import { IconName } from '../../assets/icons';
 import Credits from '../applications/Credits';
-import { CiPill } from "react-icons/ci";
-
 
 export interface DesktopProps {}
 
 type ExtendedWindowAppProps<T> = T & WindowAppProps;
 
-
-
 const Desktop: React.FC<DesktopProps> = (props) => {
-    const [tokenName, setTokenName] = useState("");
-const [telegramLink, setTelegramLink] = useState("");
-const [twitterLink, setTwitterLink] = useState("");
-const [tokenCA, setTokenCA] = useState("");
-const [pumpLink, setPumpLink] = useState("");
+    const [tokenName, setTokenName] = useState('');
+    const [telegramLink, setTelegramLink] = useState('');
+    const [twitterLink, setTwitterLink] = useState('');
+    const [tokenCA, setTokenCA] = useState('');
+    const [pumpLink, setPumpLink] = useState('');
 
-useEffect(() => {
-  // Fetch data from the API when the component mounts
-  fetch("https://apitoreturnca.onrender.com/api/purchaseData", {
-    headers: {
-      "x-access-key":
-        "A1qQaAA9kdfnn4Mmn44bpoieIYHKkdghFKUD1978563llakLLLKdfslphgarcorc3haeogmmMNn243wf",
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setTokenName(data.tokenName);
-      setTelegramLink(data.telegramLink);
-      setTwitterLink(data.twitterLink);
-      setTokenCA(data.tokenCA);
-      setPumpLink(data.link);
-    })
-    .catch((error) => console.error("Error fetching data:", error));
-}, []);
+    useEffect(() => {
+        // Fetch data from the API when the component mounts
+        fetch("https://apitoreturnca.onrender.com/api/purchaseData", {
+          headers: {
+            "x-access-key":
+              "A1qQaAA9kdfnn4Mmn44bpoieIYHKkdghFKUD1978563llakLLLKdfslphgarcorc3haeogmmMNn243wf",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            setTokenName(data.tokenName);
+            setTelegramLink(data.telegramLink);
+            setTwitterLink(data.twitterLink);
+            setTokenCA(data.tokenCA);
+            setPumpLink(data.link);
+          })
+          .catch((error) => console.error("Error fetching data:", error));
+      }, []);
 
-
-const APPLICATIONS: {
-    [key in string]: {
-        key: string;
-        name: string;
-        shortcutIcon: IconName;
-        component: string | React.FC<ExtendedWindowAppProps<any>>;
-
+    const APPLICATIONS: {
+        [key in string]: {
+            key: string;
+            name: string;
+            shortcutIcon: IconName;
+            component: string | React.FC<ExtendedWindowAppProps<any>>;
+        };
+    } = {
+        // computer: {
+        //     key: 'computer',
+        //     name: 'This Computer',
+        //     shortcutIcon: 'computerBig',
+        //     component: ThisComputer,
+        // },
+        showcase: {
+            key: 'showcase',
+            name: 'Bitcoin Project',
+            shortcutIcon: 'showcaseIcon',
+            component: ShowcaseExplorer,
+        },
+        pumpfun: {
+            key: 'pumpfun',
+            name: 'pump.fun',
+            shortcutIcon: 'pill',
+            component: pumpLink,
+        },
+        telegram: {
+            key: 'telegram',
+            name: 'telegram',
+            shortcutIcon: 'telegram',
+            component: telegramLink,
+        },
+        x: {
+            key: 'X',
+            name: 'X',
+            shortcutIcon: 'twitter',
+            component: twitterLink,
+        },
+        // trail: {
+        //     key: 'trail',
+        //     name: 'The Oregon Trail',
+        //     shortcutIcon: 'trailIcon',
+        //     component: OregonTrail,
+        // },
+        doom: {
+            key: 'doom',
+            name: 'Doom',
+            shortcutIcon: 'doomIcon',
+            component: Doom,
+        },
+        btcsrc: {
+            key: 'btcsrc',
+            name: 'Bitcoin',
+            shortcutIcon: 'btc',
+            component: btcsrc,
+        },
+        scrabble: {
+            key: 'scrabble',
+            name: 'Scrabble',
+            shortcutIcon: 'scrabbleIcon',
+            component: Scrabble,
+        },
+        ROOM: {
+            key: 'ROOM',
+            name: 'ROOM',
+            shortcutIcon: 'henordleIcon',
+            component: ROOM,
+        },
+        credits: {
+            key: 'credits',
+            name: 'DONT CLICK HERE!',
+            shortcutIcon: 'credits',
+            component: Credits,
+        },
     };
-} = {
-    // computer: {
-    //     key: 'computer',
-    //     name: 'This Computer',
-    //     shortcutIcon: 'computerBig',
-    //     component: ThisComputer,
-    // },
-    showcase: {
-        key: 'showcase',
-        name: 'Bitcoin Project',
-        shortcutIcon: 'showcaseIcon',
-        component: ShowcaseExplorer,
-    },
-    pumpfun: {
-        key: 'pumpfun',
-        name: 'pump.fun',
-        shortcutIcon: 'pill',
-        component: `${pumpLink}`,
-    },
-    telegram: {
-        key: 'telegram',
-        name: 'telegram',
-        shortcutIcon: 'telegram',
-        component: `${telegramLink}`,
-    },
-    x: {
-        key: 'X',
-        name: 'X',
-        shortcutIcon: 'twitter',
-        component:  `${twitterLink}`,
-    },
-    // trail: {
-    //     key: 'trail',
-    //     name: 'The Oregon Trail',
-    //     shortcutIcon: 'trailIcon',
-    //     component: OregonTrail,
-    // },
-    doom: {
-        key: 'doom',
-        name: 'Doom',
-        shortcutIcon: 'doomIcon',
-        component: Doom,
-    },
-    btcsrc: {
-        key: 'btcsrc',
-        name: 'Bitcoin',
-        shortcutIcon: 'btc',
-        component: btcsrc,
-    },
-    scrabble: {
-        key: 'scrabble',
-        name: 'Scrabble',
-        shortcutIcon: 'scrabbleIcon',
-        component: Scrabble,
-    },
-    ROOM: {
-        key: 'ROOM',
-        name: 'ROOM',
-        shortcutIcon: 'henordleIcon',
-        component: ROOM,
-    },
-    credits: {
-        key: 'credits',
-        name: 'DONT CLICK HERE!',
-        shortcutIcon: 'credits',
-        component: Credits,
-    },
-    
-};
 
     const [windows, setWindows] = useState<DesktopWindows>({});
 
@@ -142,7 +135,6 @@ const APPLICATIONS: {
         if (shutdown === true) {
             rebootDesktop();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shutdown]);
 
     useEffect(() => {
@@ -153,9 +145,10 @@ const APPLICATIONS: {
                 shortcutName: app.name,
                 icon: app.shortcutIcon,
                 onOpen: () => {
-                    if (typeof app.component === 'string') {
+                    if (typeof app.component === 'string' && app.component !== '') {
+                        console.log("Abrindo link:", app.component);
                         window.open(app.component, '_blank');
-                    } else {
+                    } else if (typeof app.component === 'function') {
                         addWindow(
                             app.key,
                             <app.component
@@ -165,6 +158,8 @@ const APPLICATIONS: {
                                 key={app.key}
                             />
                         );
+                    } else {
+                        console.warn("Componente inválido ou link vazio:", app.component);
                     }
                 },
             });
@@ -177,15 +172,13 @@ const APPLICATIONS: {
         });
 
         setShortcuts(newShortcuts);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [APPLICATIONS]);
 
     const rebootDesktop = useCallback(() => {
         setWindows({});
     }, []);
 
     const removeWindow = useCallback((key: string) => {
-        // Absolute hack and a half
         setTimeout(() => {
             setWindows((prevWindows) => {
                 const newWindows = { ...prevWindows };
@@ -206,10 +199,10 @@ const APPLICATIONS: {
     const getHighestZIndex = useCallback((): number => {
         let highestZIndex = 0;
         Object.keys(windows).forEach((key) => {
-            const window = windows[key];
-            if (window) {
-                if (window.zIndex > highestZIndex)
-                    highestZIndex = window.zIndex;
+            const w = windows[key];
+            if (w) {
+                if (w.zIndex > highestZIndex)
+                    highestZIndex = w.zIndex;
             }
         });
         return highestZIndex;
@@ -264,12 +257,11 @@ const APPLICATIONS: {
                 },
             }));
         },
-        [getHighestZIndex]
+        [getHighestZIndex, APPLICATIONS]
     );
 
     return !shutdown ? (
         <div style={styles.desktop}>
-            {/* For each window in windows, loop over and render  */}
             {Object.keys(windows).map((key) => {
                 const element = windows[key].component;
                 if (!element) return <div key={`win-${key}`}></div>;
@@ -328,7 +320,6 @@ const styles: StyleSheetCSS = {
         flex: 1,
         backgroundColor: Colors.turquoise,
     },
-    
     shutdown: {
         minHeight: '100%',
         flex: 1,
